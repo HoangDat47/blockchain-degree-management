@@ -26,8 +26,8 @@ export function Navbar() {
         className="dark:invert"
         src="/next.svg"
         alt="Next.js logo"
-        width={180}
-        height={38}
+        width={150}
+        height={30}
         priority
       />
 
@@ -61,7 +61,7 @@ export function Navbar() {
                 onClick={() => disconnect()}
                 className="text-red-400 cursor-pointer w-full flex justify-center rounded-2xl font-semibold"
               >
-                Disconnect
+                Ngắt kết nối
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -71,7 +71,7 @@ export function Navbar() {
           className="bg-blue-500 rounded-xl hover:bg-blue-600 shadow-xl md:px-10 font-semibold"
           onClick={() => connect({ connector })}
         >
-          Connect Wallet
+          Kết nối ví MetaMask
         </Button>
       )}
     </nav>
