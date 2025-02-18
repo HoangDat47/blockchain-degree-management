@@ -23,10 +23,12 @@ export function Navbar() {
   return (
     <nav className="flex w-full px-3 md:px-0 h-fit py-10 justify-between items-center">
       <Image
-        src="/metamask-logo.svg"
-        alt="Metamask Logo"
+        className="dark:invert"
+        src="/next.svg"
+        alt="Next.js logo"
         width={180}
-        height={180}
+        height={38}
+        priority
       />
 
       {isConnected ? (
