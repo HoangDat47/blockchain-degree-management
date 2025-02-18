@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import StudentList from "@/components/student/studentList";
 
 export default function Home() {
   return (
@@ -25,7 +26,7 @@ export default function Home() {
                 <CardTitle>Quản lý bằng cấp</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
-                {/* Nội dung của Quản lý bằng cấp */}
+                <StudentList />
               </CardContent>
               <CardFooter>{/* Footer nếu cần */}</CardFooter>
             </Card>
