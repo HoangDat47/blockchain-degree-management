@@ -8,12 +8,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import StudentList from "@/components/student/studentList";
+import DegreeManagement from "@/components/degree/degreeManagement";
 
 export default function Home() {
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-start justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-1 items-center sm:items-start w-full">
-        <Tabs defaultValue="degree-management" className="w-full max-w-[800px]">
+        <Tabs defaultValue="degree-management" className="w-full max-w-[2000px]">
           <TabsList className="grid w-full grid-cols-3 gap-4 sm:gap-8">
             <TabsTrigger value="student-lists">
               Danh sách sinh viên
@@ -40,7 +41,7 @@ export default function Home() {
                 <CardTitle>Quản lý bằng cấp</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
-                {/* Nội dung của Quản lý bằng cấp */}
+                <DegreeManagement />
               </CardContent>
               <CardFooter>{/* Footer nếu cần */}</CardFooter>
             </Card>
