@@ -18,14 +18,15 @@ export default function Degree() {
   const [degreeRecords, setDegreeRecords] = useState<any[]>([]);
   const [studentName, setStudentName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [phone, setPhone] = useState<string>("");
+  const [phone, setPhone] = useState<string>("0");
   const [degreeName, setDegreeName] = useState<string>("");
   const [ifpsHash, setIfpsHash] = useState<string>("");
   const [ifpsUrl, setIfpsUrl] = useState<string>("");
-  const [file, setFile] = useState("");
-  const [url, setUrl] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  const [url, setUrl] = useState<string>("");
   const [uploading, setUploading] = useState(false);
-  const inputFile = useRef(null);
+  const inputFile = useRef<HTMLInputElement | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const contractAddress = "0xd28d7c26e03e539b63570b1f17c21634883d62ae";
 
@@ -86,7 +87,7 @@ export default function Degree() {
         id,
         studentName,
         email,
-        "0",
+        phone,
         degreeName,
         ifpsHash,
         ifpsUrl
@@ -126,13 +127,18 @@ export default function Degree() {
     try {
       setUploading(true);
       const data = new FormData();
-      data.set("file", file);
+      if (file) {
+        data.set("file", file);
+      }
       const uploadRequest = await fetch("/api/files", {
         method: "POST",
         body: data,
       });
-      const signedUrl = await uploadRequest.json();
-      setUrl(signedUrl);
+      const response = await uploadRequest.json();
+      const signedUrl = response.url;
+      const cid = response.cid;
+      setIfpsHash(cid);
+      setIfpsUrl(`https://gateway.pinata.cloud/ipfs/${cid}`);
       setUploading(false);
     } catch (e) {
       console.log(e);
@@ -141,13 +147,32 @@ export default function Degree() {
     }
   };
 
-  const handleChange = (e: any) => {
-    setFile(e.target.files[0]);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const handleSearch = async () => {
+    try {
+      const res = await fetch(
+        `https://67b5d18b07ba6e59083e9c88.mockapi.io/api/v1/student?name=${searchQuery}`
+      );
+      const students = await res.json();
+      if (students.length > 0) {
+        const student = students[0];
+        setStudentName(student.name);
+        setEmail(student.gmail);
+      } else {
+        alert("Không tìm thấy sinh viên");
+      }
+    } catch (error) {
+      console.error("Lỗi khi tìm kiếm sinh viên", error);
+    }
   };
 
   return (
     <div>
-      <h1>Quản lý bằng cấp</h1>
       <p>Tài khoản kết nối: {account}</p>
       {isOwner && <p>Bạn là người sở hữu hợp đồng này.</p>}
 
@@ -168,6 +193,23 @@ export default function Degree() {
 
       <form onSubmit={addRecord}>
         <div className="grid w-full max-w-sm items-center gap-1.5">
+          <Label htmlFor="search">Tìm kiếm sinh viên</Label>
+          <Input
+            id="search"
+            type="text"
+            placeholder="Nhập tên sinh viên"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <Button
+            className="bg-white text-black p-2 rounded-md"
+            type="button"
+            onClick={handleSearch}
+          >
+            Tìm kiếm
+          </Button>
+        </div>
+        <div className="grid w-full max-w-sm items-center gap-1.5">
           <Label htmlFor="id">Họ và tên</Label>
           <Input
             type="text"
@@ -185,15 +227,6 @@ export default function Degree() {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        {/* <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="id">Số điện thoại</Label>
-          <Input
-            type="text"
-            placeholder="Số điện thoại"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-        </div> */}
         <div className="grid w-full max-w-sm items-center gap-1.5">
           <Label htmlFor="id">Tên bằng cấp</Label>
           <Input
@@ -204,12 +237,30 @@ export default function Degree() {
           />
         </div>
         <div className="grid w-full max-w-sm items-center gap-1.5">
-      <Label htmlFor="picture">Chọn tệp</Label>
-      <Input id="picture" type="file" accept=".png, .jpg, .pdf" ref={inputFile} onChange={handleChange} />
-      <Button className="bg-white text-black p-2 rounded-md" disabled={uploading} onClick={uploadFile}>
-      {uploading ? "Uploading..." : "Upload"}</Button>
-      {url && <a href={url} className="underline" target="_blank">{url}</a>}
-    </div>
+          <Label htmlFor="picture">Chọn tệp</Label>
+          <Input
+            id="picture"
+            type="file"
+            accept=".png, .jpg, .pdf"
+            ref={inputFile}
+            onChange={handleChange}
+          />
+          <Button
+            className="bg-white text-black p-2 rounded-md"
+            disabled={uploading}
+            onClick={uploadFile}
+          >
+            {uploading ? "Uploading..." : "Upload"}
+          </Button>
+          {url && (
+            <div>
+              <p>CID: {ifpsHash}</p>
+              <a href={ifpsUrl} className="underline" target="_blank" rel="noopener noreferrer">
+                {ifpsUrl}
+              </a>
+            </div>
+          )}
+        </div>
         <div className="grid w-full max-w-sm items-center gap-1.5">
           <Label htmlFor="id">IFPS Hash</Label>
           <Input
@@ -256,6 +307,7 @@ export default function Degree() {
               <p>ID: {record.id.toString()}</p>
               <p>Họ và tên: {record.studentName}</p>
               <p>Email: {record.email}</p>
+              <p>Số điện thoại: {record.phone.toString()}</p>
               <p>Tên bằng cấp: {record.degreeName}</p>
               <p>IFPS Hash: {record.ifpsHash}</p>
               <p>IFPS URL: {record.ifpsUrl}</p>
