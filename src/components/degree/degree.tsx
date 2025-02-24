@@ -1,10 +1,11 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { contractABI } from "./contractABI";
+import DegreeForm from "./DegreeForm";
 
 export default function Degree() {
   const [provider, setProvider] =
@@ -18,17 +19,12 @@ export default function Degree() {
   const [degreeRecords, setDegreeRecords] = useState<any[]>([]);
   const [studentName, setStudentName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [phone, setPhone] = useState<string>("0");
+  const [issuer, setIssuer] = useState<string>("");
   const [degreeName, setDegreeName] = useState<string>("");
   const [ifpsHash, setIfpsHash] = useState<string>("");
   const [ifpsUrl, setIfpsUrl] = useState<string>("");
-  const [file, setFile] = useState<File | null>(null);
-  const [url, setUrl] = useState<string>("");
-  const [uploading, setUploading] = useState(false);
-  const inputFile = useRef<HTMLInputElement | null>(null);
-  const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const contractAddress = "0xd28d7c26e03e539b63570b1f17c21634883d62ae";
+  const contractAddress = "0x4cdb2754121f112b4a7598fa2959410e0291c3ba";
 
   useEffect(() => {
     const connectWallet = async () => {
@@ -82,12 +78,20 @@ export default function Degree() {
       return;
     }
 
+    console.log("id:", id);
+    console.log("studentName:", studentName);
+    console.log("email:", email);
+    console.log("issuer:", issuer);
+    console.log("degreeName:", degreeName);
+    console.log("ifpsHash:", ifpsHash);
+    console.log("ifpsUrl:", ifpsUrl);
+
     try {
       const tx = await contract.addRecord(
         id,
         studentName,
         email,
-        phone,
+        issuer,
         degreeName,
         ifpsHash,
         ifpsUrl
@@ -123,54 +127,6 @@ export default function Degree() {
     }
   };
 
-  const uploadFile = async () => {
-    try {
-      setUploading(true);
-      const data = new FormData();
-      if (file) {
-        data.set("file", file);
-      }
-      const uploadRequest = await fetch("/api/files", {
-        method: "POST",
-        body: data,
-      });
-      const response = await uploadRequest.json();
-      const signedUrl = response.url;
-      const cid = response.cid;
-      setIfpsHash(cid);
-      setIfpsUrl(`https://gateway.pinata.cloud/ipfs/${cid}`);
-      setUploading(false);
-    } catch (e) {
-      console.log(e);
-      setUploading(false);
-      alert("Trouble uploading file");
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setFile(e.target.files[0]);
-    }
-  };
-
-  const handleSearch = async () => {
-    try {
-      const res = await fetch(
-        `https://67b5d18b07ba6e59083e9c88.mockapi.io/api/v1/student?name=${searchQuery}`
-      );
-      const students = await res.json();
-      if (students.length > 0) {
-        const student = students[0];
-        setStudentName(student.name);
-        setEmail(student.gmail);
-      } else {
-        alert("Không tìm thấy sinh viên");
-      }
-    } catch (error) {
-      console.error("Lỗi khi tìm kiếm sinh viên", error);
-    }
-  };
-
   return (
     <div>
       <p>Tài khoản kết nối: {account}</p>
@@ -191,98 +147,23 @@ export default function Degree() {
         </div>
       </form>
 
-      <form onSubmit={addRecord}>
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="search">Tìm kiếm sinh viên</Label>
-          <Input
-            id="search"
-            type="text"
-            placeholder="Nhập tên sinh viên"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <Button
-            className="bg-white text-black p-2 rounded-md"
-            type="button"
-            onClick={handleSearch}
-          >
-            Tìm kiếm
-          </Button>
-        </div>
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="id">Họ và tên</Label>
-          <Input
-            type="text"
-            placeholder="Họ và tên"
-            value={studentName}
-            onChange={(e) => setStudentName(e.target.value)}
-          />
-        </div>
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="id">Email</Label>
-          <Input
-            type="text"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="id">Tên bằng cấp</Label>
-          <Input
-            type="text"
-            placeholder="Tên bằng cấp"
-            value={degreeName}
-            onChange={(e) => setDegreeName(e.target.value)}
-          />
-        </div>
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="picture">Chọn tệp</Label>
-          <Input
-            id="picture"
-            type="file"
-            accept=".png, .jpg, .pdf"
-            ref={inputFile}
-            onChange={handleChange}
-          />
-          <Button
-            className="bg-white text-black p-2 rounded-md"
-            disabled={uploading}
-            onClick={uploadFile}
-          >
-            {uploading ? "Uploading..." : "Upload"}
-          </Button>
-          {url && (
-            <div>
-              <p>CID: {ifpsHash}</p>
-              <a href={ifpsUrl} className="underline" target="_blank" rel="noopener noreferrer">
-                {ifpsUrl}
-              </a>
-            </div>
-          )}
-        </div>
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="id">IFPS Hash</Label>
-          <Input
-            type="text"
-            placeholder="IFPS Hash"
-            value={ifpsHash}
-            onChange={(e) => setIfpsHash(e.target.value)}
-          />
-        </div>
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="id">IFPS URL</Label>
-          <Input
-            type="text"
-            placeholder="IFPS URL"
-            value={ifpsUrl}
-            onChange={(e) => setIfpsUrl(e.target.value)}
-          />
-        </div>
-        <Button className="bg-white text-black p-2 rounded-md" type="submit">
-          Thêm bằng cấp
-        </Button>
-      </form>
+      <DegreeForm
+        id={id}
+        setID={setID}
+        studentName={studentName}
+        setStudentName={setStudentName}
+        email={email}
+        setEmail={setEmail}
+        issuer={issuer}
+        setIssuer={setIssuer}
+        degreeName={degreeName}
+        setDegreeName={setDegreeName}
+        ifpsHash={ifpsHash}
+        setIfpsHash={setIfpsHash}
+        ifpsUrl={ifpsUrl}
+        setIfpsUrl={setIfpsUrl}
+        addRecord={addRecord}
+      />
 
       <form onSubmit={authorizeProvider}>
         <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -307,7 +188,7 @@ export default function Degree() {
               <p>ID: {record.id.toString()}</p>
               <p>Họ và tên: {record.studentName}</p>
               <p>Email: {record.email}</p>
-              <p>Số điện thoại: {record.phone.toString()}</p>
+              <p>Nơi cấp: {record.issuer}</p>
               <p>Tên bằng cấp: {record.degreeName}</p>
               <p>IFPS Hash: {record.ifpsHash}</p>
               <p>IFPS URL: {record.ifpsUrl}</p>
