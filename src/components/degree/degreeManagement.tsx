@@ -1,9 +1,9 @@
-import UploadDegree from "./uploadDegree";
+import Degree from "./degree";
 
 export default function DegreeManagement() {
     return (
         <div>
-            <UploadDegree />
+            <Degree />
         </div>
     )
 }
