@@ -26,7 +26,7 @@ const UploadFile: React.FC<UploadFileProps> = ({ setIfpsHash, setIfpsUrl }) => {
       });
       const signedUrl = await uploadRequest.json();
       setIfpsHash(signedUrl);
-      setIfpsUrl(`https://gateway.pinata.cloud/ipfs/${signedUrl}`);
+      setIfpsUrl(`https://ipfs.io/ipfs/${signedUrl}`);
       setUploading(false);
     } catch (e) {
       console.log(e);
