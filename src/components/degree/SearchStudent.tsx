@@ -14,7 +14,7 @@ const SearchStudent: React.FC<SearchStudentProps> = ({ setStudentName, setEmail 
   const handleSearch = async () => {
     try {
       const res = await fetch(
-        `https://67b5d18b07ba6e59083e9c88.mockapi.io/api/v1/student?name=${searchQuery}`
+        `https://67b5d18b07ba6e59083e9c88.mockapi.io/api/v1/student?studentID=${searchQuery}`
       );
       const students = await res.json();
       if (students.length > 0) {
@@ -35,7 +35,7 @@ const SearchStudent: React.FC<SearchStudentProps> = ({ setStudentName, setEmail 
       <Input
         id="search"
         type="text"
-        placeholder="Nhập tên sinh viên"
+        placeholder="Nhập mã sinh viên"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
