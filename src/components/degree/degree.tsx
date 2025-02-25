@@ -134,10 +134,10 @@ export default function Degree() {
 
       <form onSubmit={fetchDegreeRecords}>
         <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="id">ID</Label>
+          <Label htmlFor="id">Tìm kiếm theo mã bằng cấp</Label>
           <Input
             type="text"
-            placeholder="Nhập ID"
+            placeholder="Nhập mã bằng cấp"
             value={id}
             onChange={(e) => setID(e.target.value)}
           />
