@@ -62,10 +62,10 @@ const DegreeForm: React.FC<DegreeFormProps> = ({
         />
       </div>
       <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="id">Mã sinh viên</Label>
+        <Label htmlFor="id">Mã bằng cấp</Label>
         <Input
           type="text"
-          placeholder="Mã sinh viên"
+          placeholder="Mã bằng cấp"
           value={id || ""}
           onChange={(e) => setID(e.target.value)}
         />
