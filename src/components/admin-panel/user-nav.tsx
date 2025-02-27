@@ -1,18 +1,17 @@
 "use client";
+import { Button } from "@/components/ui/button";
 
-import Image from "next/image";
-import { useAccount, useConnect, useDisconnect, useSwitchChain } from "wagmi";
-import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAccount, useConnect, useDisconnect, useSwitchChain } from "wagmi";
 import { formatAddress } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 
-export function Navbar() {
+export function UserNav() {
   const { address, isConnected, chain } = useAccount();
   const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
@@ -21,22 +20,13 @@ export function Navbar() {
   const connector = connectors[0];
 
   return (
-    <nav className="flex w-full px-3 md:px-0 h-fit py-10 justify-between items-center">
-      <Image
-        className="dark:invert"
-        src="/next.svg"
-        alt="Next.js logo"
-        width={150}
-        height={30}
-        priority
-      />
-
+    <div>
       {isConnected ? (
         <div className="flex-col md:flex-row flex gap-2">
           <DropdownMenu>
-            <DropdownMenuTrigger className="bg-white h-fit md:px-3 py-2 rounded-2xl font-semibold flex justify-center  items-center gap-1">
+            {/* <DropdownMenuTrigger className="bg-white h-fit md:px-3 py-2 rounded-2xl font-semibold flex justify-center  items-center gap-1">
               {chain?.name.split(" ").slice(0, 2).join(" ")} <ChevronDown />
-            </DropdownMenuTrigger>
+            </DropdownMenuTrigger> */}
             <DropdownMenuContent className="w-full justify-center rounded-2xl">
               {chains.map(
                 (c) =>
@@ -74,6 +64,6 @@ export function Navbar() {
           Kết nối ví MetaMask
         </Button>
       )}
-    </nav>
+    </div>
   );
 }
