@@ -1,64 +1,78 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+"use client";
+import Link from "next/link";
+import { ContentLayout } from "@/components/admin-panel/content-layout";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import StudentList from "@/components/student/studentList";
-import DegreeManagement from "@/components/degree/degreeManagement";
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator
+} from "@/components/ui/breadcrumb";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from "@/components/ui/tooltip";
+import { useSidebar } from "@/hooks/use-sidebar";
+import { useStore } from "@/hooks/use-store";
 
 export default function Home() {
+  const sidebar = useStore(useSidebar, (x) => x);
+  if (!sidebar) return null;
+  const { settings, setSettings } = sidebar;
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-start justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-1 items-center sm:items-start w-full">
-        <Tabs defaultValue="degree-management" className="w-full max-w-[2000px]">
-          <TabsList className="grid w-full grid-cols-3 gap-4 sm:gap-8">
-            <TabsTrigger value="student-lists">
-              Danh sách sinh viên
-            </TabsTrigger>
-            <TabsTrigger value="degree-management">
-              Quản lý bằng cấp
-            </TabsTrigger>
-            <TabsTrigger value="analytics">Thống kê</TabsTrigger>
-          </TabsList>
-          <TabsContent value="student-lists">
-            <Card>
-              <CardHeader>
-                <CardTitle>Danh sách sinh viên</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <StudentList />
-              </CardContent>
-              <CardFooter>{/* Footer nếu cần */}</CardFooter>
-            </Card>
-          </TabsContent>
-          <TabsContent value="degree-management">
-            <Card>
-              <CardHeader>
-                <CardTitle>Quản lý bằng cấp</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <DegreeManagement />
-              </CardContent>
-              <CardFooter>{/* Footer nếu cần */}</CardFooter>
-            </Card>
-          </TabsContent>
-          <TabsContent value="analytics">
-            <Card>
-              <CardHeader>
-                <CardTitle>Thống kê</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                {/* Nội dung của Thống kê */}
-              </CardContent>
-              <CardFooter>{/* Footer nếu cần */}</CardFooter>
-            </Card>
-          </TabsContent>
-        </Tabs>
-      </main>
-    </div>
+    <ContentLayout title="Dashboard">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/">Trang chủ</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Dashboard</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+      <TooltipProvider>
+        <div className="flex gap-6 mt-6">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="is-hover-open"
+                  onCheckedChange={(x) => setSettings({ isHoverOpen: x })}
+                  checked={settings.isHoverOpen}
+                />
+                <Label htmlFor="is-hover-open">Hover Open</Label>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>When hovering on the sidebar in mini state, it will open</p>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="disable-sidebar"
+                  onCheckedChange={(x) => setSettings({ disabled: x })}
+                  checked={settings.disabled}
+                />
+                <Label htmlFor="disable-sidebar">Disable Sidebar</Label>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Hide sidebar</p>
+            </TooltipContent>
+          </Tooltip>
+        </div>
+      </TooltipProvider>
+    </ContentLayout>
   );
 }
