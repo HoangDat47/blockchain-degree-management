@@ -24,9 +24,9 @@ export function UserNav() {
       {isConnected ? (
         <div className="flex-col md:flex-row flex gap-2">
           <DropdownMenu>
-            <DropdownMenuTrigger className="bg-white h-fit md:px-3 py-2 rounded-2xl font-semibold flex justify-center  items-center gap-1">
+            {/* <DropdownMenuTrigger className="bg-white h-fit md:px-3 py-2 rounded-2xl font-semibold flex justify-center  items-center gap-1">
               {chain?.name.split(" ").slice(0, 2).join(" ")} <ChevronDown />
-            </DropdownMenuTrigger>
+            </DropdownMenuTrigger> */}
             <DropdownMenuContent className="w-full justify-center rounded-2xl">
               {chains.map(
                 (c) =>
