@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { contractABI } from "./contractABI";
 import DegreeForm from "./DegreeForm";
 
@@ -128,75 +129,112 @@ export default function Degree() {
   };
 
   return (
-    <div>
-      <p>Tài khoản kết nối: {account}</p>
-      {isOwner && <p>Bạn là người sở hữu hợp đồng này.</p>}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <Card className="shadow-lg">
+        <CardHeader>
+          <CardTitle>Tài khoản kết nối</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p>Tài khoản: {account}</p>
+          {isOwner && <p>Bạn là người sở hữu hợp đồng này.</p>}
+        </CardContent>
+      </Card>
 
-      <form onSubmit={fetchDegreeRecords}>
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="id">Tìm kiếm theo mã bằng cấp</Label>
-          <Input
-            type="text"
-            placeholder="Nhập mã bằng cấp"
-            value={id}
-            onChange={(e) => setID(e.target.value)}
+      <Card className="shadow-lg">
+        <CardHeader>
+          <CardTitle>Ủy quyền nhà cung cấp</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={authorizeProvider}>
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+              <Label htmlFor="providerAddress">Ủy quyền nhà cung cấp</Label>
+              <Input
+                id="providerAddress"
+                type="text"
+                placeholder="Địa chỉ nhà cung cấp"
+                value={providerAddress}
+                onChange={(e) => setProviderAddress(e.target.value)}
+              />
+              <Button className="bg-blue-500 text-white p-2 rounded-md mt-2" type="submit">
+                Ủy quyền nhà cung cấp
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+
+      <Card className="shadow-lg">
+        <CardHeader>
+          <CardTitle>Thêm bằng cấp</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <DegreeForm
+            id={id}
+            setID={setID}
+            studentName={studentName}
+            setStudentName={setStudentName}
+            email={email}
+            setEmail={setEmail}
+            issuer={issuer}
+            setIssuer={setIssuer}
+            degreeName={degreeName}
+            setDegreeName={setDegreeName}
+            ifpsHash={ifpsHash}
+            setIfpsHash={setIfpsHash}
+            ifpsUrl={ifpsUrl}
+            setIfpsUrl={setIfpsUrl}
+            addRecord={addRecord}
           />
-          <Button className="bg-white text-black p-2 rounded-md" type="submit">
-            Lấy thông tin bằng cấp
-          </Button>
-        </div>
-      </form>
+        </CardContent>
+      </Card>
 
-      <DegreeForm
-        id={id}
-        setID={setID}
-        studentName={studentName}
-        setStudentName={setStudentName}
-        email={email}
-        setEmail={setEmail}
-        issuer={issuer}
-        setIssuer={setIssuer}
-        degreeName={degreeName}
-        setDegreeName={setDegreeName}
-        ifpsHash={ifpsHash}
-        setIfpsHash={setIfpsHash}
-        ifpsUrl={ifpsUrl}
-        setIfpsUrl={setIfpsUrl}
-        addRecord={addRecord}
-      />
-
-      <form onSubmit={authorizeProvider}>
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="id">Ủy quyền nhà cung cấp</Label>
-          <Input
-            type="text"
-            placeholder="Địa chỉ nhà cung cấp"
-            value={providerAddress}
-            onChange={(e) => setProviderAddress(e.target.value)}
-          />
-          <Button className="bg-white text-black p-2 rounded-md" type="submit">
-            Ủy quyền nhà cung cấp
-          </Button>
-        </div>
-      </form>
-
-      <div>
-        <h2>Thông tin bằng cấp</h2>
-        <ul>
-          {degreeRecords.map((record: any, index: number) => (
-            <li key={index}>
-              <p>ID: {record.id.toString()}</p>
-              <p>Họ và tên: {record.studentName}</p>
-              <p>Email: {record.email}</p>
-              <p>Nơi cấp: {record.issuer}</p>
-              <p>Tên bằng cấp: {record.degreeName}</p>
-              <p>IFPS Hash: {record.ifpsHash}</p>
-              <p>IFPS URL: {record.ifpsUrl}</p>
-              <p>Thời gian: {record.timestamp.toString()}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <Card className="shadow-lg">
+        <CardHeader>
+          <CardTitle>Tìm kiếm và thông tin bằng cấp</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={fetchDegreeRecords}>
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+              <Label htmlFor="degreeId">Tìm kiếm theo mã bằng cấp</Label>
+              <Input
+                id="degreeId"
+                type="text"
+                placeholder="Nhập mã bằng cấp"
+                value={id}
+                onChange={(e) => setID(e.target.value)}
+              />
+              <Button className="bg-blue-500 text-white p-2 rounded-md mt-2" type="submit">
+                Lấy thông tin bằng cấp
+              </Button>
+            </div>
+          </form>
+          <div className="mt-4">
+            <h2 className="text-lg font-semibold">Thông tin bằng cấp</h2>
+            <ul className="list-disc pl-5">
+              {degreeRecords.map((record: any, index: number) => (
+                <li key={index} className="mt-2 border p-2 rounded-md">
+                  {record.ifpsUrl ? (
+                    <a href={record.ifpsUrl} target="_blank" rel="noopener noreferrer">
+                      <iframe
+                        src={record.ifpsUrl}
+                        className="w-full h-64 mb-2"
+                      />
+                    </a>
+                  ) : (
+                    <p>Không thể load bằng cấp</p>
+                  )}
+                  <div className="border p-2 rounded-md">
+                    <p className="font-semibold">Họ và tên: {record.studentName}</p>
+                    <p>Email: {record.email}</p>
+                    <p>Tên bằng cấp: {record.degreeName}</p>
+                    <p>Nơi cấp: {record.issuer}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
