@@ -41,11 +41,12 @@ const DegreeForm: React.FC<DegreeFormProps> = ({
   addRecord,
 }) => {
   return (
-    <form onSubmit={addRecord}>
+    <form onSubmit={addRecord} className="space-y-4">
       <SearchStudent setStudentName={setStudentName} setEmail={setEmail} />
       <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="id">Họ và tên</Label>
+        <Label htmlFor="studentName">Họ và tên</Label>
         <Input
+          id="studentName"
           type="text"
           placeholder="Họ và tên"
           value={studentName || ""}
@@ -53,17 +54,19 @@ const DegreeForm: React.FC<DegreeFormProps> = ({
         />
       </div>
       <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="id">Email</Label>
+        <Label htmlFor="email">Email</Label>
         <Input
-          type="text"
+          id="email"
+          type="email"
           placeholder="Email"
           value={email || ""}
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
       <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="id">Mã bằng cấp</Label>
+        <Label htmlFor="degreeId">Mã bằng cấp</Label>
         <Input
+          id="degreeId"
           type="text"
           placeholder="Mã bằng cấp"
           value={id || ""}
@@ -71,8 +74,9 @@ const DegreeForm: React.FC<DegreeFormProps> = ({
         />
       </div>
       <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="id">Tên bằng cấp</Label>
+        <Label htmlFor="degreeName">Tên bằng cấp</Label>
         <Input
+          id="degreeName"
           type="text"
           placeholder="Tên bằng cấp"
           value={degreeName || ""}
@@ -80,8 +84,9 @@ const DegreeForm: React.FC<DegreeFormProps> = ({
         />
       </div>
       <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="id">Nơi cấp</Label>
+        <Label htmlFor="issuer">Nơi cấp</Label>
         <Input
+          id="issuer"
           type="text"
           placeholder="Nơi cấp"
           value={issuer || ""}
@@ -90,8 +95,9 @@ const DegreeForm: React.FC<DegreeFormProps> = ({
       </div>
       <UploadFile setIfpsHash={setIfpsHash} setIfpsUrl={setIfpsUrl} />
       <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="id">IFPS Hash</Label>
+        <Label htmlFor="ifpsHash">IFPS Hash</Label>
         <Input
+          id="ifpsHash"
           type="text"
           placeholder="IFPS Hash"
           value={ifpsHash || ""}
@@ -99,15 +105,16 @@ const DegreeForm: React.FC<DegreeFormProps> = ({
         />
       </div>
       <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="id">IFPS URL</Label>
+        <Label htmlFor="ifpsUrl">IFPS URL</Label>
         <Input
+          id="ifpsUrl"
           type="text"
           placeholder="IFPS URL"
           value={ifpsUrl || ""}
           onChange={(e) => setIfpsUrl(e.target.value)}
         />
       </div>
-      <Button className="bg-white text-black p-2 rounded-md" type="submit">
+      <Button className="bg-blue-500 text-white p-2 rounded-md mt-2" type="submit">
         Thêm bằng cấp
       </Button>
     </form>

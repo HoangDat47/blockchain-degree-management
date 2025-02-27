@@ -36,11 +36,14 @@ export default function DegreeManagementPage() {
       </Breadcrumb>
 
       {/* Phần content */}
-      <Card className="rounded-lg border-none mt-6">
+      <div className="p-6 mt-3">
+      <Degree />
+      </div>
+      {/* <Card className="rounded-lg border-none mt-6">
         <CardContent className="p-6">
-          <Degree />
+          
         </CardContent>
-      </Card>
+      </Card> */}
     </ContentLayout>
   );
 }

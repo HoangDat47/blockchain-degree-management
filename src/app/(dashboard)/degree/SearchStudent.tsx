@@ -40,7 +40,7 @@ const SearchStudent: React.FC<SearchStudentProps> = ({ setStudentName, setEmail 
         onChange={(e) => setSearchQuery(e.target.value)}
       />
       <Button
-        className="bg-white text-black p-2 rounded-md"
+        className="bg-blue-500 text-white p-2 rounded-md mt-2"
         type="button"
         onClick={handleSearch}
       >

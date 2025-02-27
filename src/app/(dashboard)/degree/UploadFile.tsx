@@ -52,11 +52,11 @@ const UploadFile: React.FC<UploadFileProps> = ({ setIfpsHash, setIfpsUrl }) => {
         onChange={handleChange}
       />
       <Button
-        className="bg-white text-black p-2 rounded-md"
+        className="bg-blue-500 text-white p-2 rounded-md mt-2"
         disabled={uploading}
         onClick={uploadFile}
       >
-        {uploading ? "Uploading..." : "Upload"}
+        {uploading ? "Đang tải lên..." : "Tải lên"}
       </Button>
     </div>
   );
