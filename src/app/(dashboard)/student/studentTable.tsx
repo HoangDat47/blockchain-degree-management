@@ -1,3 +1,5 @@
+'use client'
+import { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -20,10 +22,26 @@ type Students = {
   avatar: string;
 };
 
-export async function StudentTable() {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  const res = await fetch("https://67b5d18b07ba6e59083e9c88.mockapi.io/api/v1/student");
-  const students = await res.json();
+export function StudentTable() {
+  const [students, setStudents] = useState<Students[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const res = await fetch("https://67b5d18b07ba6e59083e9c88.mockapi.io/api/v1/student");
+      const data = await res.json();
+      setStudents(data);
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="overflow-x-auto">
       <Table className="min-w-full bg-white shadow-md rounded-lg">
@@ -33,7 +51,6 @@ export async function StudentTable() {
             <TableHead className="p-4">Tên</TableHead>
             <TableHead className="p-4">Gmail</TableHead>
             <TableHead className="p-4">Số điện thoại</TableHead>
-            {/* <TableHead className="text-right">Amount</TableHead> */}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -43,7 +60,6 @@ export async function StudentTable() {
               <TableCell className="p-4">{student.name}</TableCell>
               <TableCell className="p-4">{student.gmail}</TableCell>
               <TableCell className="p-4">{student.phone}</TableCell>
-              {/* <TableCell className="text-right">{student.phone}</TableCell> */}
             </TableRow>
           ))}
         </TableBody>
