@@ -10,7 +10,6 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Degree from "./degree";
-import { Card, CardContent } from "@/components/ui/card";
 
 export default function DegreeManagementPage() {
   return (

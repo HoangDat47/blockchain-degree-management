@@ -5,7 +5,6 @@ import { cookieToInitialState } from "wagmi";
 import { headers } from "next/headers";
 import { getConfig } from "../../wagmi.config";
 import { Providers } from "./provider";
-import { Navbar } from "@/components/navbar";
 import AdminPanelLayout from "@/components/admin-panel/admin-panel-layout";
 
 const geistSans = Geist({
