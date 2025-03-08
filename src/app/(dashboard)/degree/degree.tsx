@@ -7,17 +7,18 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { contractABI } from "./contractABI";
 import DegreeForm from "./DegreeForm";
+import { DegreeRecord } from "@/types";
 
 export default function Degree() {
-  const [provider, setProvider] =
+  const [_provider, setProvider] =
     useState<ethers.providers.Web3Provider | null>(null);
-  const [signer, setSigner] = useState<ethers.Signer | null>(null);
+  const [_signer, setSigner] = useState<ethers.Signer | null>(null);
   const [contract, setContract] = useState<ethers.Contract | null>(null);
   const [account, setAccount] = useState<string | null>(null);
   const [isOwner, setIsOwner] = useState<boolean | null>(null);
   const [providerAddress, setProviderAddress] = useState<string>("");
   const [id, setID] = useState<string>("");
-  const [degreeRecords, setDegreeRecords] = useState<any[]>([]);
+  const [degreeRecords, setDegreeRecords] = useState<DegreeRecord[]>([]);
   const [studentName, setStudentName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [issuer, setIssuer] = useState<string>("");
@@ -211,7 +212,7 @@ export default function Degree() {
           <div className="mt-4">
             <h2 className="text-lg font-semibold">Thông tin bằng cấp</h2>
             <ul className="list-disc pl-5">
-              {degreeRecords.map((record: any, index: number) => (
+              {degreeRecords.map((record: DegreeRecord, index: number) => (
                 <li key={index} className="mt-2 border p-2 rounded-md">
                   {record.ifpsUrl ? (
                     <a href={record.ifpsUrl} target="_blank" rel="noopener noreferrer">
