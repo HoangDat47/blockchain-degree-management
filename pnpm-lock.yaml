@@ -86,6 +86,9 @@ importers:
       pinata-web3:
         specifier: ^0.5.4
         version: 0.5.4
+      punycode:
+        specifier: ^2.3.1
+        version: 2.3.1
       react:
         specifier: ^19.0.0
         version: 19.0.0
