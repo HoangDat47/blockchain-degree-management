@@ -3,7 +3,7 @@ import "server-only";
 export const getStudents = async () => {
   try {
     const response = await fetch(
-      `${process.env.AWS_API_URL}/students`,
+      `${process.env.WS_API_URL}/students`,
       {
         cache: "no-store",
       }
@@ -22,7 +22,7 @@ export const getStudents = async () => {
 export const getStudent = async (id: number) => {
   try {
     const response = await fetch(
-      `${process.env.AWS_API_URL}/students/${id}`
+      `${process.env.WS_API_URL}/students/${id}`
     ).then(async function (res) {
       const status = res.status;
       const data = await res.json();
