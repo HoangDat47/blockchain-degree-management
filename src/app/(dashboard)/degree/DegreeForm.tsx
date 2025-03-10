@@ -48,25 +48,25 @@ const DegreeForm: React.FC<DegreeFormProps> = ({
     const newErrors: { [key: string]: string } = {};
 
     if (!validateRequired(studentName)) {
-      newErrors.studentName = "Họ và tên là bắt buộc";
+      newErrors.studentName = "Name is required";
     }
     if (!validateEmail(email)) {
-      newErrors.email = "Email không hợp lệ";
+      newErrors.email = "Email is invalid";
     }
     if (!validateRequired(id)) {
-      newErrors.id = "Mã bằng cấp là bắt buộc";
+      newErrors.id = "Degree ID is required";
     }
     if (!validateRequired(degreeName)) {
-      newErrors.degreeName = "Tên bằng cấp là bắt buộc";
+      newErrors.degreeName = "Degree name is required";
     }
     if (!validateRequired(issuer)) {
-      newErrors.issuer = "Nơi cấp là bắt buộc";
+      newErrors.issuer = "Issuer is required";
     }
     if (!validateRequired(ifpsHash)) {
-      newErrors.ifpsHash = "IFPS Hash là bắt buộc";
+      newErrors.ifpsHash = "IFPS Hash is required";
     }
     if (!validateRequired(ifpsUrl)) {
-      newErrors.ifpsUrl = "IFPS URL là bắt buộc";
+      newErrors.ifpsUrl = "IFPS URL is required";
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -77,15 +77,26 @@ const DegreeForm: React.FC<DegreeFormProps> = ({
     }
   };
 
+  const handleClear = () => {
+    setID("");
+    setStudentName("");
+    setEmail("");
+    setDegreeName("");
+    setIssuer("");
+    setIfpsHash("");
+    setIfpsUrl("");
+    setErrors({});
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <SearchStudent setStudentName={setStudentName} setEmail={setEmail} />
       <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="studentName">Họ và tên</Label>
+        <Label htmlFor="studentName">Name</Label>
         <Input
           id="studentName"
           type="text"
-          placeholder="Họ và tên"
+          placeholder="Name"
           value={studentName || ""}
           onChange={(e) => setStudentName(e.target.value)}
         />
@@ -103,33 +114,33 @@ const DegreeForm: React.FC<DegreeFormProps> = ({
         {errors.email && <p className="text-red-500">{errors.email}</p>}
       </div>
       <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="degreeId">Mã bằng cấp</Label>
+        <Label htmlFor="degreeId">Degree ID</Label>
         <Input
           id="degreeId"
           type="text"
-          placeholder="Mã bằng cấp"
+          placeholder="Degree ID"
           value={id || ""}
           onChange={(e) => setID(e.target.value)}
         />
         {errors.id && <p className="text-red-500">{errors.id}</p>}
       </div>
       <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="degreeName">Tên bằng cấp</Label>
+        <Label htmlFor="degreeName">Degree name</Label>
         <Input
           id="degreeName"
           type="text"
-          placeholder="Tên bằng cấp"
+          placeholder="Degree name"
           value={degreeName || ""}
           onChange={(e) => setDegreeName(e.target.value)}
         />
         {errors.degreeName && <p className="text-red-500">{errors.degreeName}</p>}
       </div>
       <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="issuer">Nơi cấp</Label>
+        <Label htmlFor="issuer">Issuer</Label>
         <Input
           id="issuer"
           type="text"
-          placeholder="Nơi cấp"
+          placeholder="Issuer"
           value={issuer || ""}
           onChange={(e) => setIssuer(e.target.value)}
         />
@@ -158,9 +169,14 @@ const DegreeForm: React.FC<DegreeFormProps> = ({
         />
         {errors.ifpsUrl && <p className="text-red-500">{errors.ifpsUrl}</p>}
       </div>
-      <Button className="bg-blue-500 text-white p-2 rounded-md mt-2" type="submit">
-        Thêm bằng cấp
-      </Button>
+      <div className="flex space-x-2">
+        <Button className="bg-blue-500 text-white p-2 rounded-md mt-2" type="submit">
+          Add degree
+        </Button>
+        <Button className="bg-gray-500 text-white p-2 rounded-md mt-2" type="button" onClick={handleClear}>
+          Clear
+        </Button>
+      </div>
     </form>
   );
 };

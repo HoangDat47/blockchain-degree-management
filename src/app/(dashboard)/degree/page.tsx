@@ -13,12 +13,12 @@ import Degree from "./degree";
 
 export default function DegreeManagementPage() {
   return (
-    <ContentLayout title="Quản lý bằng cấp">
+    <ContentLayout title="Degree Management">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/">Trang chủ</Link>
+              <Link href="/">Home</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
@@ -29,14 +29,14 @@ export default function DegreeManagementPage() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Quản lý bằng cấp</BreadcrumbPage>
+            <BreadcrumbPage>Degree Management</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
 
-      {/* Phần content */}
+      {/* Content section */}
       <div className="p-6 mt-3">
-      <Degree />
+        <Degree />
       </div>
       {/* <Card className="rounded-lg border-none mt-6">
         <CardContent className="p-6">

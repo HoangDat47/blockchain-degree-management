@@ -51,7 +51,7 @@ export function UserNav() {
                 onClick={() => disconnect()}
                 className="text-red-400 cursor-pointer w-full flex justify-center rounded-2xl font-semibold"
               >
-                Ngắt kết nối
+                Disconnect
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -61,7 +61,7 @@ export function UserNav() {
           className="bg-blue-500 rounded-xl hover:bg-blue-600 shadow-xl md:px-10 font-semibold"
           onClick={() => connect({ connector })}
         >
-          Kết nối ví MetaMask
+          Connect Wallet (Metamask)
         </Button>
       )}
     </div>

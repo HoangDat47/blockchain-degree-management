@@ -46,10 +46,10 @@ export function StudentTable() {
       <Table className="min-w-full bg-white shadow-md rounded-lg">
         <TableHeader>
           <TableRow className="bg-gray-100">
-            <TableHead className="w-[150px] p-4">Mã sinh viên</TableHead>
-            <TableHead className="p-4">Tên</TableHead>
-            <TableHead className="p-4">Gmail</TableHead>
-            <TableHead className="p-4">Số điện thoại</TableHead>
+            <TableHead className="w-[150px] p-4">Student ID</TableHead>
+            <TableHead className="p-4">Name</TableHead>
+            <TableHead className="p-4">Email</TableHead>
+            <TableHead className="p-4">Phone Number</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

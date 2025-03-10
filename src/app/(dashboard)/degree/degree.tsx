@@ -48,8 +48,8 @@ export default function Degree() {
         const ownerAddress = await contractInstance.getOwner();
         setIsOwner(accountAddress.toLowerCase() === ownerAddress.toLowerCase());
       } catch (error) {
-        setPopupMessage("Không thể kết nối với ví MetaMask");
-        // console.error("Không thể kết nối với ví MetaMask", error);
+        setPopupMessage("Cannot connect to MetaMask wallet");
+        // console.error("Cannot connect to MetaMask wallet", error);
       }
     };
 
@@ -59,13 +59,13 @@ export default function Degree() {
   const fetchDegreeRecords = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!contract) {
-      // console.error("Hợp đồng chưa được khởi tạo");
-      setPopupMessage("Hợp đồng chưa được khởi tạo");
+      // console.error("Contract is not initialized");
+      setPopupMessage("Contract is not initialized");
       return;
     }
 
     if (!validateRequired(id)) {
-      setPopupMessage("Mã bằng cấp là bắt buộc");
+      setPopupMessage("Degree ID is required");
       return;
     }
 
@@ -74,16 +74,16 @@ export default function Degree() {
       // console.log("records", records);
       setDegreeRecords(records);
     } catch (error) {
-      // console.error("Không thể lấy thông tin bằng cấp", error);
-      setPopupMessage("Không thể lấy thông tin bằng cấp");
+      // console.error("Cannot get degree information", error);
+      setPopupMessage("Cannot get degree information");
     }
   };
 
   const addRecord = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!contract) {
-      // console.error("Hợp đồng chưa được khởi tạo");
-      setPopupMessage("Hợp đồng chưa được khởi tạo");
+      // console.error("Contract is not initialized");
+      setPopupMessage("Contract is not initialized");
       return;
     }
 
@@ -107,28 +107,28 @@ export default function Degree() {
       );
       await tx.wait();
       fetchDegreeRecords(event);
-      setPopupMessage("Đã thêm bằng cấp thành công");
+      setPopupMessage("Added degree successfully");
     } catch (error) {
-      console.error("Không thể thêm bằng cấp", error);
-      setPopupMessage("Không thể thêm bằng cấp");
+      // console.error("Cannot add degree", error);
+      setPopupMessage("Cannot add degree");
     }
   };
 
   const authorizeProvider = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!contract) {
-      // console.error("Hợp đồng chưa được khởi tạo");
-      setPopupMessage("Hợp đồng chưa được khởi tạo");
+      // console.error("Contract is not initialized");
+      setPopupMessage("Contract is not initialized");
       return;
     }
 
     if (!validateRequired(providerAddress)) {
-      setPopupMessage("Địa chỉ nhà cung cấp là bắt buộc");
+      setPopupMessage("Provider address is required");
       return;
     }
 
     if (!ethers.utils.isAddress(providerAddress)) {
-      setPopupMessage("Địa chỉ nhà cung cấp không hợp lệ");
+      setPopupMessage("Provider address is invalid");
       return;
     }
 
@@ -136,17 +136,26 @@ export default function Degree() {
       try {
         const tx = await contract.authorizeProvider(providerAddress);
         await tx.wait();
-        setPopupMessage(`Đã ủy quyền nhà cung cấp: ${providerAddress} thành công`);
+        setPopupMessage(`Authorized provider ${providerAddress} successfully`);
       } catch (error) {
         // console.error(
-        //   "Chỉ có người sở hữu hợp đồng mới được uỷ quyền nhà cung cấp khác",
+        //   "Only contract owner can authorize provider",
         //   error
         // );
-        setPopupMessage("Chỉ có người sở hữu hợp đồng mới được uỷ quyền nhà cung cấp khác");
+        setPopupMessage("Only contract owner can authorize provider");
       }
     } else {
-      setPopupMessage("Chỉ có người sở hữu hợp đồng mới được uỷ quyền nhà cung cấp khác");
+      setPopupMessage("Only contract owner can authorize provider");
     }
+  };
+
+  const handleClearProvider = () => {
+    setProviderAddress("");
+  };
+
+  const handleClearDegreeInfo = () => {
+    setID("");
+    setDegreeRecords([]);
   };
 
   return (
@@ -154,32 +163,37 @@ export default function Degree() {
       {popupMessage && <Popup message={popupMessage} onClose={() => setPopupMessage(null)} />}
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle>Tài khoản kết nối</CardTitle>
+          <CardTitle>Connect account</CardTitle>
         </CardHeader>
         <CardContent>
-          <p>Tài khoản: {account}</p>
-          {isOwner && <p>Bạn là người sở hữu hợp đồng này.</p>}
+          <p>Account: {account}</p>
+          {isOwner && <p>You own this contract.</p>}
         </CardContent>
       </Card>
 
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle>Ủy quyền nhà cung cấp</CardTitle>
+          <CardTitle>Authorize provider</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={authorizeProvider}>
             <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="providerAddress">Ủy quyền nhà cung cấp</Label>
+              <Label htmlFor="providerAddress">Authorize provider</Label>
               <Input
                 id="providerAddress"
                 type="text"
-                placeholder="Địa chỉ nhà cung cấp"
+                placeholder="Provider address"
                 value={providerAddress}
                 onChange={(e) => setProviderAddress(e.target.value)}
               />
-              <Button className="bg-blue-500 text-white p-2 rounded-md mt-2" type="submit">
-                Ủy quyền nhà cung cấp
-              </Button>
+              <div className="flex space-x-2">
+                <Button className="bg-blue-500 text-white p-2 rounded-md mt-2" type="submit">
+                  Authorize provider
+                </Button>
+                <Button className="bg-gray-500 text-white p-2 rounded-md mt-2" type="button" onClick={handleClearProvider}>
+                  Clear
+                </Button>
+              </div>
             </div>
           </form>
         </CardContent>
@@ -187,7 +201,7 @@ export default function Degree() {
 
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle>Thêm bằng cấp</CardTitle>
+          <CardTitle>Add degree</CardTitle>
         </CardHeader>
         <CardContent>
           <DegreeForm
@@ -212,26 +226,31 @@ export default function Degree() {
 
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle>Tìm kiếm và thông tin bằng cấp</CardTitle>
+          <CardTitle>Search and degree information</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={fetchDegreeRecords}>
             <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="degreeId">Tìm kiếm theo mã bằng cấp</Label>
+              <Label htmlFor="degreeId">Search by degree ID</Label>
               <Input
                 id="degreeId"
                 type="text"
-                placeholder="Nhập mã bằng cấp"
+                placeholder="Enter degree ID"
                 value={id}
                 onChange={(e) => setID(e.target.value)}
               />
-              <Button className="bg-blue-500 text-white p-2 rounded-md mt-2" type="submit">
-                Lấy thông tin bằng cấp
-              </Button>
+              <div className="flex space-x-2">
+                <Button className="bg-blue-500 text-white p-2 rounded-md mt-2" type="submit">
+                  Get degree information
+                </Button>
+                <Button className="bg-gray-500 text-white p-2 rounded-md mt-2" type="button" onClick={handleClearDegreeInfo}>
+                  Clear
+                </Button>
+              </div>
             </div>
           </form>
           <div className="mt-4">
-            <h2 className="text-lg font-semibold">Thông tin bằng cấp</h2>
+            <h2 className="text-lg font-semibold">Degree information</h2>
             <ul className="list-disc pl-5">
               {degreeRecords.map((record: DegreeRecord, index: number) => (
                 <li key={index} className="mt-2 border p-2 rounded-md">
@@ -243,13 +262,13 @@ export default function Degree() {
                       />
                     </a>
                   ) : (
-                    <p>Không thể load bằng cấp</p>
+                    <p>Cannot load degree</p>
                   )}
                   <div className="border p-2 rounded-md">
-                    <p className="font-semibold">Họ và tên: {record.studentName}</p>
+                    <p className="font-semibold">Name: {record.studentName}</p>
                     <p>Email: {record.email}</p>
-                    <p>Tên bằng cấp: {record.degreeName}</p>
-                    <p>Nơi cấp: {record.issuer}</p>
+                    <p>Degree name: {record.degreeName}</p>
+                    <p>Issuer: {record.issuer}</p>
                   </div>
                 </li>
               ))}

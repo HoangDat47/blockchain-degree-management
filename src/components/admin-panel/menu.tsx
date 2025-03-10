@@ -131,12 +131,12 @@ export function Menu({ isOpen }: MenuProps) {
                         isOpen === false ? "opacity-0 hidden" : "opacity-100"
                       )}
                     >
-                      Đăng xuất
+                      Sign out
                     </p>
                   </Button>
                 </TooltipTrigger>
                 {isOpen === false && (
-                  <TooltipContent side="right">Đăng xuất</TooltipContent>
+                  <TooltipContent side="right">Sign out</TooltipContent>
                 )}
               </Tooltip>
             </TooltipProvider>

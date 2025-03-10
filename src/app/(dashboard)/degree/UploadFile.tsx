@@ -41,9 +41,16 @@ const UploadFile: React.FC<UploadFileProps> = ({ setIfpsHash, setIfpsUrl }) => {
     }
   };
 
+  const handleClear = () => {
+    setFile(null);
+    if (inputFile.current) {
+      inputFile.current.value = "";
+    }
+  };
+
   return (
     <div className="grid w-full max-w-sm items-center gap-1.5">
-      <Label htmlFor="picture">Chọn tệp</Label>
+      <Label htmlFor="picture">Choose file</Label>
       <Input
         id="picture"
         type="file"
@@ -51,13 +58,22 @@ const UploadFile: React.FC<UploadFileProps> = ({ setIfpsHash, setIfpsUrl }) => {
         ref={inputFile}
         onChange={handleChange}
       />
-      <Button
-        className="bg-blue-500 text-white p-2 rounded-md mt-2"
-        disabled={uploading}
-        onClick={uploadFile}
-      >
-        {uploading ? "Đang tải lên..." : "Tải lên"}
-      </Button>
+      <div className="flex space-x-2">
+        <Button
+          className="bg-blue-500 text-white p-2 rounded-md mt-2"
+          disabled={uploading}
+          onClick={uploadFile}
+        >
+          {uploading ? "Uploading..." : "Upload"}
+        </Button>
+        <Button
+          className="bg-gray-500 text-white p-2 rounded-md mt-2"
+          type="button"
+          onClick={handleClear}
+        >
+          Clear
+        </Button>
+      </div>
     </div>
   );
 };

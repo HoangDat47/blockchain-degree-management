@@ -7,7 +7,7 @@ export function Footer() {
         <p className="text-xs md:text-sm leading-loose text-muted-foreground text-left">
           The source code is available on{" "}
           <Link
-            href="https://github.com/ThxgHntr/blockchain-degree-management"
+            href="https://github.com/HoangDat47/blockchain-degree-management"
             target="_blank"
             rel="noopener noreferrer"
             className="font-medium underline underline-offset-4"

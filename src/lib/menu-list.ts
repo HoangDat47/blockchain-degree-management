@@ -30,12 +30,12 @@ export function getMenuList(): Group[] {
       menus: [
         {
           href: "/student",
-          label: "Thông tin sinh viên",
+          label: "Student Management",
           icon: Users
         },
         {
           href: "/degree",
-          label: "Quản lý bằng cấp",
+          label: "Degree Management",
           icon: SquarePen
         }
       ]

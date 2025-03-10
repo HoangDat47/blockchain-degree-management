@@ -19,19 +19,19 @@ export function StudentForm() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Thêm sinh viên</DialogTitle>
+          <DialogTitle>Add Student</DialogTitle>
           <DialogDescription>
-            Vui lòng nhập thông tin sinh viên
+            Please enter student information
           </DialogDescription>
         </DialogHeader>
         <form>
           <div className="grid gap-4 py-4">
             <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="id">Mã sinh viên</Label>
+              <Label htmlFor="id">Student ID</Label>
               <Input
                 type="text"
                 id="id"
-                placeholder="Nhập mã sinh viên"
+                placeholder="Enter student ID"
               />
             </div>
             <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -39,15 +39,15 @@ export function StudentForm() {
               <Input
                 type="email"
                 id="email"
-                placeholder="Nhập email"
+                placeholder="Enter email"
               />
             </div>
             <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="name">Tên sinh viên</Label>
+              <Label htmlFor="name">Student Name</Label>
               <Input
                 type="text"
                 id="name"
-                placeholder="Nhập tên sinh viên"
+                placeholder="Enter student name"
               />
             </div>
           </div>

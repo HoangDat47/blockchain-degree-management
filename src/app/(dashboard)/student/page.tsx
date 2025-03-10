@@ -13,12 +13,12 @@ import StudentList from "./studentList";
 
 export default function StudentManagementPage() {
   return (
-    <ContentLayout title="Thông tin sinh viên">
+    <ContentLayout title="Student Information">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/">Trang chủ</Link>
+              <Link href="/">Home</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
@@ -29,7 +29,7 @@ export default function StudentManagementPage() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Thông tin sinh viên</BreadcrumbPage>
+            <BreadcrumbPage>Student Information</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>

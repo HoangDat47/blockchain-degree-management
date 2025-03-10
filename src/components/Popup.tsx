@@ -14,7 +14,7 @@ const Popup: React.FC<PopupProps> = ({ message, onClose }) => {
           className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
           onClick={onClose}
         >
-          Đóng
+          Close
         </button>
       </div>
     </div>
