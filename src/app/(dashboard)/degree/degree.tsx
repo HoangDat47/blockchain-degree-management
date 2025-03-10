@@ -10,9 +10,6 @@ import DegreeForm from "./DegreeForm";
 import { DegreeRecord } from "@/types";
 
 export default function Degree() {
-  const [_provider, setProvider] =
-    useState<ethers.providers.Web3Provider | null>(null);
-  const [_signer, setSigner] = useState<ethers.Signer | null>(null);
   const [contract, setContract] = useState<ethers.Contract | null>(null);
   const [account, setAccount] = useState<string | null>(null);
   const [isOwner, setIsOwner] = useState<boolean | null>(null);
@@ -34,8 +31,6 @@ export default function Degree() {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         await provider.send("eth_requestAccounts", []);
         const signer = provider.getSigner();
-        setProvider(provider);
-        setSigner(signer);
 
         const accountAddress = await signer.getAddress();
         setAccount(accountAddress);
