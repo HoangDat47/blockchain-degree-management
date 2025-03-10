@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Quản lý bằng cấp",
-  description: "Quản lý bằng cấp",
+  title: "Degree Management",
+  description: "Degree Management",
 };
 
 export default async function RootLayout({
