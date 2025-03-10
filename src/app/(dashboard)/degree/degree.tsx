@@ -47,9 +47,8 @@ export default function Degree() {
 
         const ownerAddress = await contractInstance.getOwner();
         setIsOwner(accountAddress.toLowerCase() === ownerAddress.toLowerCase());
-      } catch (error) {
+      } catch {
         setPopupMessage("Cannot connect to MetaMask wallet");
-        // console.error("Cannot connect to MetaMask wallet", error);
       }
     };
 
@@ -59,7 +58,6 @@ export default function Degree() {
   const fetchDegreeRecords = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!contract) {
-      // console.error("Contract is not initialized");
       setPopupMessage("Contract is not initialized");
       return;
     }
@@ -71,10 +69,8 @@ export default function Degree() {
 
     try {
       const records = await contract.getDegreeRecords(id);
-      // console.log("records", records);
       setDegreeRecords(records);
-    } catch (error) {
-      // console.error("Cannot get degree information", error);
+    } catch {
       setPopupMessage("Cannot get degree information");
     }
   };
@@ -82,18 +78,9 @@ export default function Degree() {
   const addRecord = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!contract) {
-      // console.error("Contract is not initialized");
       setPopupMessage("Contract is not initialized");
       return;
     }
-
-    // console.log("id:", id);
-    // console.log("studentName:", studentName);
-    // console.log("email:", email);
-    // console.log("issuer:", issuer);
-    // console.log("degreeName:", degreeName);
-    // console.log("ifpsHash:", ifpsHash);
-    // console.log("ifpsUrl:", ifpsUrl);
 
     try {
       const tx = await contract.addRecord(
@@ -108,8 +95,7 @@ export default function Degree() {
       await tx.wait();
       fetchDegreeRecords(event);
       setPopupMessage("Added degree successfully");
-    } catch (error) {
-      // console.error("Cannot add degree", error);
+    } catch {
       setPopupMessage("Cannot add degree");
     }
   };
@@ -117,7 +103,6 @@ export default function Degree() {
   const authorizeProvider = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!contract) {
-      // console.error("Contract is not initialized");
       setPopupMessage("Contract is not initialized");
       return;
     }
@@ -137,11 +122,7 @@ export default function Degree() {
         const tx = await contract.authorizeProvider(providerAddress);
         await tx.wait();
         setPopupMessage(`Authorized provider ${providerAddress} successfully`);
-      } catch (error) {
-        // console.error(
-        //   "Only contract owner can authorize provider",
-        //   error
-        // );
+      } catch {
         setPopupMessage("Only contract owner can authorize provider");
       }
     } else {
