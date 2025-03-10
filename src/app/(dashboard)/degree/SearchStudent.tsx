@@ -4,6 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { validateRequired } from "@/lib/validate";
 
+interface Student {
+  studentID: string;
+  name: string;
+  gmail: string;
+}
+
 interface SearchStudentProps {
   setStudentName: (name: string) => void;
   setEmail: (email: string) => void;
@@ -23,9 +29,9 @@ const SearchStudent: React.FC<SearchStudentProps> = ({ setStudentName, setEmail 
       const res = await fetch(
         `https://67b5d18b07ba6e59083e9c88.mockapi.io/api/v1/student?studentID=${searchQuery}`
       );
-      const students = await res.json();
+      const students: Student[] = await res.json();
       if (Array.isArray(students)) {
-        const student = students.find((s: any) => s.studentID === searchQuery);
+        const student = students.find((s: Student) => s.studentID === searchQuery);
         if (student) {
           setStudentName(student.name);
           setEmail(student.gmail);
