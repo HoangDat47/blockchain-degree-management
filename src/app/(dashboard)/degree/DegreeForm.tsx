@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import UploadFile from "./UploadFile";
 import SearchStudent from "./SearchStudent";
 import { Label } from "@/components/ui/label";
+import { validateEmail, validateRequired } from "@/lib/validate";
 
 interface DegreeFormProps {
   id: string;
@@ -40,8 +41,44 @@ const DegreeForm: React.FC<DegreeFormProps> = ({
   setIfpsUrl,
   addRecord,
 }) => {
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    const newErrors: { [key: string]: string } = {};
+
+    if (!validateRequired(studentName)) {
+      newErrors.studentName = "Họ và tên là bắt buộc";
+    }
+    if (!validateEmail(email)) {
+      newErrors.email = "Email không hợp lệ";
+    }
+    if (!validateRequired(id)) {
+      newErrors.id = "Mã bằng cấp là bắt buộc";
+    }
+    if (!validateRequired(degreeName)) {
+      newErrors.degreeName = "Tên bằng cấp là bắt buộc";
+    }
+    if (!validateRequired(issuer)) {
+      newErrors.issuer = "Nơi cấp là bắt buộc";
+    }
+    if (!validateRequired(ifpsHash)) {
+      newErrors.ifpsHash = "IFPS Hash là bắt buộc";
+    }
+    if (!validateRequired(ifpsUrl)) {
+      newErrors.ifpsUrl = "IFPS URL là bắt buộc";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+    } else {
+      setErrors({});
+      addRecord(event);
+    }
+  };
+
   return (
-    <form onSubmit={addRecord} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4">
       <SearchStudent setStudentName={setStudentName} setEmail={setEmail} />
       <div className="grid w-full max-w-sm items-center gap-1.5">
         <Label htmlFor="studentName">Họ và tên</Label>
@@ -52,6 +89,7 @@ const DegreeForm: React.FC<DegreeFormProps> = ({
           value={studentName || ""}
           onChange={(e) => setStudentName(e.target.value)}
         />
+        {errors.studentName && <p className="text-red-500">{errors.studentName}</p>}
       </div>
       <div className="grid w-full max-w-sm items-center gap-1.5">
         <Label htmlFor="email">Email</Label>
@@ -62,6 +100,7 @@ const DegreeForm: React.FC<DegreeFormProps> = ({
           value={email || ""}
           onChange={(e) => setEmail(e.target.value)}
         />
+        {errors.email && <p className="text-red-500">{errors.email}</p>}
       </div>
       <div className="grid w-full max-w-sm items-center gap-1.5">
         <Label htmlFor="degreeId">Mã bằng cấp</Label>
@@ -72,6 +111,7 @@ const DegreeForm: React.FC<DegreeFormProps> = ({
           value={id || ""}
           onChange={(e) => setID(e.target.value)}
         />
+        {errors.id && <p className="text-red-500">{errors.id}</p>}
       </div>
       <div className="grid w-full max-w-sm items-center gap-1.5">
         <Label htmlFor="degreeName">Tên bằng cấp</Label>
@@ -82,6 +122,7 @@ const DegreeForm: React.FC<DegreeFormProps> = ({
           value={degreeName || ""}
           onChange={(e) => setDegreeName(e.target.value)}
         />
+        {errors.degreeName && <p className="text-red-500">{errors.degreeName}</p>}
       </div>
       <div className="grid w-full max-w-sm items-center gap-1.5">
         <Label htmlFor="issuer">Nơi cấp</Label>
@@ -92,6 +133,7 @@ const DegreeForm: React.FC<DegreeFormProps> = ({
           value={issuer || ""}
           onChange={(e) => setIssuer(e.target.value)}
         />
+        {errors.issuer && <p className="text-red-500">{errors.issuer}</p>}
       </div>
       <UploadFile setIfpsHash={setIfpsHash} setIfpsUrl={setIfpsUrl} />
       <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -103,6 +145,7 @@ const DegreeForm: React.FC<DegreeFormProps> = ({
           value={ifpsHash || ""}
           onChange={(e) => setIfpsHash(e.target.value)}
         />
+        {errors.ifpsHash && <p className="text-red-500">{errors.ifpsHash}</p>}
       </div>
       <div className="grid w-full max-w-sm items-center gap-1.5">
         <Label htmlFor="ifpsUrl">IFPS URL</Label>
@@ -113,6 +156,7 @@ const DegreeForm: React.FC<DegreeFormProps> = ({
           value={ifpsUrl || ""}
           onChange={(e) => setIfpsUrl(e.target.value)}
         />
+        {errors.ifpsUrl && <p className="text-red-500">{errors.ifpsUrl}</p>}
       </div>
       <Button className="bg-blue-500 text-white p-2 rounded-md mt-2" type="submit">
         Thêm bằng cấp
