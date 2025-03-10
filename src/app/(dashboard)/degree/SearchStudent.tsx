@@ -3,12 +3,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { validateRequired } from "@/lib/validate";
-
-interface Student {
-  studentID: string;
-  name: string;
-  gmail: string;
-}
+import { Students } from "@/types";
+import { getStudentFromDB } from "@/actions/actions";
 
 interface SearchStudentProps {
   setStudentName: (name: string) => void;
@@ -25,23 +21,23 @@ const SearchStudent: React.FC<SearchStudentProps> = ({ setStudentName, setEmail 
       return;
     }
 
+    const studentID = parseInt(searchQuery, 10);
+    if (isNaN(studentID)) {
+      setError("Student ID must be a number");
+      return;
+    }
+
     try {
-      const res = await fetch(
-        `https://67b5d18b07ba6e59083e9c88.mockapi.io/api/v1/student?studentID=${searchQuery}`
-      );
-      const students: Student[] = await res.json();
-      if (Array.isArray(students)) {
-        const student = students.find((s: Student) => s.studentID === searchQuery);
-        if (student) {
-          setStudentName(student.name);
-          setEmail(student.gmail);
-          setError(null);
-          setSearchQuery(""); // Clear search input after successful search
-        } else {
-          setError("Student not found");
-        }
+      const response = await getStudentFromDB(studentID);
+      const student: Students = response.data;
+      if (student.message === "not found") {
+        setError("Student not found");
       } else {
-        setError("Invalid response data");
+        setStudentName(student.name);
+        setEmail(student.gmail);
+        setError(null);
+        setSearchQuery("");
+        console.log(student);
       }
     } catch (error) {
       console.error("Error searching for student", error);

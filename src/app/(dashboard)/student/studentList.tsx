@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { StudentTable } from "./studentTable";
+import StudentTable from "./studentTable";
 
 export default function StudentHolderContent() {
   return (
