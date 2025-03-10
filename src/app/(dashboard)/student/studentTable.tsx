@@ -1,5 +1,3 @@
-'use client'
-import { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -8,38 +6,32 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Loading from "@/app/loading";
+import { Students } from "@/types";
+import { getStudents } from "@/actions/data";
 
-type Students = {
-  id: number;
-  studentID: string;
-  name: string;
-  gender: string;
-  gmail: string;
-  gpa: number;
-  phone: string;
-  avatar: string;
-};
+export const dynamic = "force-dynamic";
 
-export function StudentTable() {
-  const [students, setStudents] = useState<Students[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+export default async function StudentTable() {
+  // const [students, setStudents] = useState<Students[]>([]);
+  // const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      const res = await fetch("https://67b5d18b07ba6e59083e9c88.mockapi.io/api/v1/student");
-      const data = await res.json();
-      setStudents(data);
-      setLoading(false);
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     setLoading(true);
+  //     const res = await fetch("https://67b5d18b07ba6e59083e9c88.mockapi.io/api/v1/student");
+  //     const data = await res.json();
+  //     setStudents(data);
+  //     setLoading(false);
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
-  if (loading) {
-    return <Loading />;
-  }
+  // if (loading) {
+  //   return <Loading />;
+  // }
+
+  const students: Students[] = (await getStudents()).data;
 
   return (
     <div className="overflow-x-auto">
@@ -53,8 +45,8 @@ export function StudentTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {students.map((student: Students) => (
-            <TableRow key={student.id} className="hover:bg-gray-50">
+          {students.map((student, idx) => (
+            <TableRow key={idx} className="hover:bg-gray-50">
               <TableCell className="p-4 font-medium">{student.studentID}</TableCell>
               <TableCell className="p-4">{student.name}</TableCell>
               <TableCell className="p-4">{student.gmail}</TableCell>
