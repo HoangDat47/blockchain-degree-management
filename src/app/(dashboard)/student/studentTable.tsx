@@ -12,24 +12,6 @@ import { Students } from "@/types";
 export const dynamic = "force-dynamic";
 
 export default async function StudentTable() {
-  // const [students, setStudents] = useState<Students[]>([]);
-  // const [loading, setLoading] = useState<boolean>(true);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     setLoading(true);
-  //     const res = await fetch("https://67b5d18b07ba6e59083e9c88.mockapi.io/api/v1/student");
-  //     const data = await res.json();
-  //     setStudents(data);
-  //     setLoading(false);
-  //   };
-
-  //   fetchData();
-  // }, []);
-
-  // if (loading) {
-  //   return <Loading />;
-  // }
 
   const students: Students[] = (await getStudents()).data;
 
