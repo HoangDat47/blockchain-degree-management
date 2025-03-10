@@ -1,4 +1,4 @@
-// import "server-only";
+"use server";
 
 export const getStudents = async () => {
   try {
