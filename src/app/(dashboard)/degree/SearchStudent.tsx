@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { validateRequired } from "@/lib/validate";
 import { Students } from "@/types";
-import { getStudentFromDB } from "@/actions/actions";
+import { getStudentFromDB } from "@/server/actions";
 
 interface SearchStudentProps {
   setStudentName: (name: string) => void;

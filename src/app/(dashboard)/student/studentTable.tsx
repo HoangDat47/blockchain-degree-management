@@ -6,8 +6,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { getStudents } from "@/server/data";
 import { Students } from "@/types";
-import { getStudents } from "@/actions/data";
 
 export const dynamic = "force-dynamic";
 
