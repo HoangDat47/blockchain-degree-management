@@ -20,7 +20,8 @@ export async function POST(request: NextRequest) {
     const cidString = cid.IpfsHash;
 
     return NextResponse.json(cidString, { status: 200 });
-  } catch {
+  } catch (e) {
+    console.error(e);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
