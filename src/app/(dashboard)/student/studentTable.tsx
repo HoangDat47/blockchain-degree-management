@@ -12,8 +12,8 @@ import { Students } from "@/types";
 export const dynamic = "force-dynamic";
 
 export default async function StudentTable() {
-
-  const students: Students[] = (await getStudents()).data;
+  const response = await getStudents();
+  const students: Students[] = response?.data || [];
 
   return (
     <div className="overflow-x-auto">
