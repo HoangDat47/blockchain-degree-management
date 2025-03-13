@@ -21,24 +21,28 @@ const UploadFile: React.FC<UploadFileProps> = ({ setIfpsHash, setIfpsUrl }) => {
       if (file) {
         data.set("file", file);
       }
-      const uploadRequest = await fetch("/api/files", {
+
+      const uploadRequest = await fetch(`/api/files`, {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.PINATA_JWT}`,
+          Accept: "application/json",
+        },
         body: data,
-        headers: { Accept: "application/json" },
       });
-  
+
       if (!uploadRequest.ok) {
-        const errorText = await uploadRequest.text(); // Lấy nội dung lỗi
+        const errorText = await uploadRequest.text();
         throw new Error(`Upload failed: ${uploadRequest.status} - ${errorText}`);
       }
-  
+
       const responseData = await uploadRequest.json();
       console.log("Upload successful:", responseData);
-  
+
       if (!responseData.cid) {
         throw new Error("Invalid response format");
       }
-  
+
       setIfpsHash(responseData.cid);
       setIfpsUrl(`https://ipfs.io/ipfs/${responseData.cid}`);
     } catch (e) {
@@ -48,7 +52,6 @@ const UploadFile: React.FC<UploadFileProps> = ({ setIfpsHash, setIfpsUrl }) => {
       setUploading(false);
     }
   };
-  
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
