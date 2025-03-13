@@ -29,15 +29,19 @@ const SearchStudent: React.FC<SearchStudentProps> = ({ setStudentName, setEmail 
 
     try {
       const response = await getStudentFromDB(studentID);
-      const student: Students = response.data;
-      if (student.message === "not found") {
-        setError("Student not found");
+      if (response && response.data) {
+        const student: Students = response.data;
+        if (student.message === "not found") {
+          setError("Student not found");
+        } else {
+          setStudentName(student.name);
+          setEmail(student.gmail);
+          setError(null);
+          setSearchQuery("");
+          console.log(student);
+        }
       } else {
-        setStudentName(student.name);
-        setEmail(student.gmail);
-        setError(null);
-        setSearchQuery("");
-        console.log(student);
+        setError("Student not found");
       }
     } catch (error) {
       console.error("Error searching for student", error);

@@ -13,9 +13,8 @@ export const getStudents = async () => {
       return { data, status };
     });
     return response;
-  } catch (error) {
-    console.log("Error: ", error);
-    throw new Error("Failed to fetch Students.");
+  } catch {
+    alert("Failed to fetch Students.");
   }
 };
 
@@ -29,8 +28,7 @@ export const getStudent = async (id: number) => {
       return { data, status };
     });
     return response;
-  } catch (error) {
-    console.log("Error: ", error);
-    throw new Error("Failed to fetch Student.");
+  } catch{
+    alert("Failed to fetch Student.");
   }
 };
