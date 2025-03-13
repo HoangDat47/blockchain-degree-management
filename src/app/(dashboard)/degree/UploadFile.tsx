@@ -32,7 +32,8 @@ const UploadFile: React.FC<UploadFileProps> = ({ setIfpsHash, setIfpsUrl }) => {
       setIfpsHash(signedUrl);
       setIfpsUrl(`https://ipfs.io/ipfs/${signedUrl}`);
       setUploading(false);
-    } catch {
+    } catch (e) {
+      console.error(e);
       setUploading(false);
       alert("Trouble uploading file");
     }
