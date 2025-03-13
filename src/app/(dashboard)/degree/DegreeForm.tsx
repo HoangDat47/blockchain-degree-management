@@ -99,6 +99,7 @@ const DegreeForm: React.FC<DegreeFormProps> = ({
           placeholder="Name"
           value={studentName || ""}
           onChange={(e) => setStudentName(e.target.value)}
+          readOnly
         />
         {errors.studentName && <p className="text-red-500">{errors.studentName}</p>}
       </div>
@@ -110,6 +111,7 @@ const DegreeForm: React.FC<DegreeFormProps> = ({
           placeholder="Email"
           value={email || ""}
           onChange={(e) => setEmail(e.target.value)}
+          readOnly
         />
         {errors.email && <p className="text-red-500">{errors.email}</p>}
       </div>
@@ -155,6 +157,7 @@ const DegreeForm: React.FC<DegreeFormProps> = ({
           placeholder="IFPS Hash"
           value={ifpsHash || ""}
           onChange={(e) => setIfpsHash(e.target.value)}
+          readOnly
         />
         {errors.ifpsHash && <p className="text-red-500">{errors.ifpsHash}</p>}
       </div>
@@ -164,8 +167,9 @@ const DegreeForm: React.FC<DegreeFormProps> = ({
           id="ifpsUrl"
           type="text"
           placeholder="IFPS URL"
-          value={ifpsUrl || ""}
+          value={ifpsUrl || ""} 
           onChange={(e) => setIfpsUrl(e.target.value)}
+          readOnly
         />
         {errors.ifpsUrl && <p className="text-red-500">{errors.ifpsUrl}</p>}
       </div>
