@@ -33,7 +33,7 @@ Create a `.env.local` file in the root of your project and add the following env
 
 ```bash
 # .env.local
-NEXT_PUBLIC_PINATA_JWT=your_pinata_jwt
+PINATA_JWT=your_pinata_jwt
 NEXT_PUBLIC_GATEWAY_URL=your_gateway_url
 NEXT_PUBLIC_API_URL=your_api_url
 CONTRACT_ADDRESS=your_contract_address
