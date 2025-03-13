@@ -33,13 +33,14 @@ Create a `.env.local` file in the root of your project and add the following env
 
 ```bash
 # .env.local
-PINATA_JWT=your_pinata_jwt
+NEXT_PUBLIC_PINATA_JWT=your_pinata_jwt
 NEXT_PUBLIC_GATEWAY_URL=your_gateway_url
+NEXT_PUBLIC_API_URL=your_api_url
 CONTRACT_ADDRESS=your_contract_address
 CONTRACT_ADDRESS_2=your_contract_address_2
 ```
 
-Replace `your_pinata_jwt`, `your_gateway_url`, `your_contract_address`, and `your_contract_address_2` with your actual values.
+Replace `your_pinata_jwt`, `your_gateway_url`, `your_gateway_url`, `your_contract_address`, and `your_contract_address_2` with your actual values.
 
 ### Running the Development Server
 
