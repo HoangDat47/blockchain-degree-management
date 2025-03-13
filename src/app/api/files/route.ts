@@ -10,21 +10,26 @@ export const config = {
 export async function POST(request: NextRequest) {
   try {
     const data = await request.formData();
-    const file: File | null = data.get("file") as unknown as File;
-    const cid = await pinata.upload.file(file);
-    // const url = await pinata.gateways.createSignedURL({
-    // 	cid: cid,
-    // 	expires: 3600,
-    // });
-    //tra ve cid la string
-    const cidString = cid.IpfsHash;
+    console.log("Received data:", data);
 
-    return NextResponse.json(cidString, { status: 200 });
+    const file: File | null = data.get("file") as unknown as File;
+    console.log("File received:", file);
+
+    if (!file) {
+      return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
+    }
+
+    const cid = await pinata.upload.file(file);
+    console.log("Uploaded CID:", cid);
+
+    const cidString = cid.IpfsHash;
+    return NextResponse.json({ cid: cidString }, { status: 200 });
   } catch (e) {
-    console.error(e);
+    console.error("Upload error:", e);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
     );
   }
 }
+
