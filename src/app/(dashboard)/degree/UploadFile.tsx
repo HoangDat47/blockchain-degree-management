@@ -24,13 +24,15 @@ const UploadFile: React.FC<UploadFileProps> = ({ setIfpsHash, setIfpsUrl }) => {
       const uploadRequest = await fetch("/api/files", {
         method: "POST",
         body: data,
+        headers: {  
+          Accept: "application/json"  
+        }
       });
       const signedUrl = await uploadRequest.json();
       setIfpsHash(signedUrl);
       setIfpsUrl(`https://ipfs.io/ipfs/${signedUrl}`);
       setUploading(false);
-    } catch (e) {
-      console.log(e);
+    } catch {
       setUploading(false);
       alert("Trouble uploading file");
     }
