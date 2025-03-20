@@ -1,6 +1,6 @@
 # Blockchain Degree Management
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This project is a blockchain-based degree management system that allows authorized providers to add and manage degrees. The system uses a smart contract deployed on the blockchain to ensure the integrity and authenticity of the degree records.
 
 ## Getting Started
 
@@ -40,7 +40,7 @@ CONTRACT_ADDRESS=your_contract_address
 CONTRACT_ADDRESS_2=your_contract_address_2
 ```
 
-Replace `your_pinata_jwt`, `your_gateway_url`, `your_gateway_url`, `your_contract_address`, and `your_contract_address_2` with your actual values.
+Replace `your_pinata_jwt`, `your_gateway_url`, `your_api_url`, `your_contract_address`, and `your_contract_address_2` with your actual values.
 
 ### Running the Development Server
 
@@ -51,8 +51,6 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 ### Building for Production
 
@@ -105,12 +103,12 @@ Here are the API endpoints used in the project:
 
 1. **Fetch Students**: Fetch the list of students.
    ```bash
-   GET https://67b5d18b07ba6e59083e9c88.mockapi.io/api/v1/student
+   GET ${process.env.NEXT_PUBLIC_API_URL}/student
    ```
 
 2. **Fetch Degree Records**: Fetch the degree records by degree ID.
    ```bash
-   GET https://67b5d18b07ba6e59083e9c88.mockapi.io/api/v1/degree/{degreeId}
+   GET ${process.env.NEXT_PUBLIC_API_URL}/degree/{degreeId}
    ```
 
 3. **Upload File to Pinata**: Upload a file to Pinata and get the IPFS hash and URL.
@@ -118,17 +116,29 @@ Here are the API endpoints used in the project:
    POST https://api.pinata.cloud/pinning/pinFileToIPFS
    ```
 
-### Learn More
+### Project Images
 
-To learn more about Next.js, take a look at the following resources:
+Here are some images related to the project:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### AWS API Gateway
+![AWS API Gateway](./public/preview/awsApiGateway.png)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### AWS Lambda
+![AWS Lambda](./public/preview/awsLambda.png)
 
-### Deploy on Vercel
+#### Degree Manager
+![Degree Manager](./public/preview/degreeManager.png)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### Degree View
+![Degree View](./public/preview/degreeView.png)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+#### Student API
+![Student API](./public/preview/StudentApi.png)
+
+### Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
+
+### License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
